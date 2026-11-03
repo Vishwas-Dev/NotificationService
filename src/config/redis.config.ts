@@ -15,13 +15,15 @@ function connectToRedis() {
         return () => {
             if (!connection) {
                 connection = new Redis(redisClient);
-
                 return connection;
+
             }
+            return connection;
         }
 
     } catch (error) {
         console.error("error connecting to redis", error);
+        throw error;
     }
 }
 
