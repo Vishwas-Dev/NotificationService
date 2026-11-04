@@ -13,7 +13,7 @@ export const setupMailerWorker = ()=> {
         }
     }, // process func
     {
-        connection: getRedisConnObject
+       connection: getRedisConnObject()
     }
  ); 
 
