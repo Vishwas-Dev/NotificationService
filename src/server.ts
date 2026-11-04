@@ -5,6 +5,9 @@ import { attachCorrelationIdMiddleware } from './middlewares/correlation.middlew
 import { genericErrorHandler } from './middlewares/error.middleware.js';
 import v1Router from './routers/v1/index.router.js';
 import v2Router from './routers/v2/index.router.js';
+import { setupMailerWorker } from './processors/email.processor.js';
+import { NotificationDto } from './dto/notification.dto.js';
+import { addEmailToQueue } from './producers/email.producer.js';
 
 const app = express();
 
@@ -22,5 +25,18 @@ app.use(genericErrorHandler);
 
 app.listen(serverConfig.PORT, () => {
     console.log(`Server is running on http://localhost:${serverConfig.PORT}`);
-    logger.info(`Press Ctrl+C to stop the server.`, {data : "somting"});
+    logger.info(`Press Ctrl+C to stop the server.`, {data:""});
+    setupMailerWorker();
+    logger.info(`mailer worker setup is completed`);
+
+    const sampleNotficationTemp: NotificationDto = {
+        to:"sample",
+        subject:"sample",
+        templateId:"sample",
+        params:{}
+
+    }
+
+    addEmailToQueue(sampleNotficationTemp);
+
 });

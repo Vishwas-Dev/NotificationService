@@ -11,6 +11,9 @@ export const setupMailerWorker = ()=> {
         if(job.name !== MAILER_PAYLOAD) {
             throw new Error("Invalid job name");
         }
+         // call the servie layer
+            const payload = job.data;
+            console.log(`Processing email job with payload: ${JSON.stringify(payload)}`);
     }, // process func
     {
        connection: getRedisConnObject()
