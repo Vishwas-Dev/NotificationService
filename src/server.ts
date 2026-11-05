@@ -8,6 +8,7 @@ import v2Router from './routers/v2/index.router.js';
 import { setupMailerWorker } from './processors/email.processor.js';
 import { NotificationDto } from './dto/notification.dto.js';
 import { addEmailToQueue } from './producers/email.producer.js';
+import { renderMailTemplate } from './templates/template.hadnler.js';
 
 const app = express();
 
@@ -23,20 +24,17 @@ app.use('/api/v2', v2Router);
 app.use(genericErrorHandler);
 
 
-app.listen(serverConfig.PORT, () => {
+app.listen(serverConfig.PORT, async () => {
     console.log(`Server is running on http://localhost:${serverConfig.PORT}`);
     logger.info(`Press Ctrl+C to stop the server.`, {data:""});
     setupMailerWorker();
     logger.info(`mailer worker setup is completed`);
 
-    const sampleNotficationTemp: NotificationDto = {
-        to:"sample",
-        subject:"sample",
-        templateId:"sample",
-        params:{}
-
-    }
-
-    addEmailToQueue(sampleNotficationTemp);
+    const response = await renderMailTemplate("welcome", {
+        name: "vishal",
+        appName: "bookingService"
+    })
+    
+    console.log(`render mail template ${response}`)
 
 });
