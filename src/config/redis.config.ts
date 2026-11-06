@@ -3,30 +3,29 @@ import { serverConfig } from "./index.js";
 
 // singleton pattern to connect to redis
 
-function connectToRedis() {
-    try {
-        let connection: Redis;
+function connectToRedis(): () => Redis {
+    let connection: Redis | undefined;
 
-        const redisClient = {
-            host: serverConfig.REDIS_HOST,
-            port: serverConfig.REDIS_PORT,
-            maxRetriesPerRequest: null,
-        
-        }
+    const host = serverConfig.REDIS_HOST;
+    const port = serverConfig.REDIS_PORT;
 
-        return () => {
-            if (!connection) {
-                connection = new Redis(redisClient);
-                return connection;
-
-            }
-            return connection;
-        }
-
-    } catch (error) {
-        console.error("error connecting to redis", error);
-        throw error;
+    if (!host || !port) {
+        throw new Error("Redis host or port is missing");
     }
+
+    const redisClient = {
+        host,
+        port,
+        maxRetriesPerRequest: null,
+    };
+
+    return () => {
+        if (!connection) {
+            connection = new Redis(redisClient);
+        }
+
+        return connection;
+    };
 }
 
 export const getRedisConnObject = connectToRedis();

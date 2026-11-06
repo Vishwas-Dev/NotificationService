@@ -6,9 +6,9 @@ import { genericErrorHandler } from './middlewares/error.middleware.js';
 import v1Router from './routers/v1/index.router.js';
 import v2Router from './routers/v2/index.router.js';
 import { setupMailerWorker } from './processors/email.processor.js';
-import { NotificationDto } from './dto/notification.dto.js';
 import { addEmailToQueue } from './producers/email.producer.js';
-import { renderMailTemplate } from './templates/template.hadnler.js';
+
+
 
 const app = express();
 
@@ -26,15 +26,20 @@ app.use(genericErrorHandler);
 
 app.listen(serverConfig.PORT, async () => {
     console.log(`Server is running on http://localhost:${serverConfig.PORT}`);
-    logger.info(`Press Ctrl+C to stop the server.`, {data:""});
+    logger.info(`Press Ctrl+C to stop the server.`, { data: "" } );
     setupMailerWorker();
-    logger.info(`mailer worker setup is completed`);
+    logger.info(`mailer worker setup is completed :`);
 
-    const response = await renderMailTemplate("welcome", {
-        name: "vishal",
-        appName: "bookingService"
+     addEmailToQueue({
+        to: "vishwasgupta518@gmail.com",
+        subject: "test email",
+        templateId: "welcome",
+        params: {
+            name: "vishal",
+            appName: "bookingService"
+        }
     })
 
-    console.log(`render mail template:\n ${response}`);
+
 
 });
