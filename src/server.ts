@@ -34,7 +34,7 @@ app.listen(serverConfig.PORT, async () => {
         name: "vishal",
         appName: "bookingService"
     })
-    
-    console.log(`render mail template ${response}`)
+
+    console.log(`render mail template:\n ${response}`);
 
 });
