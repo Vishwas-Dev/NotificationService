@@ -27,10 +27,11 @@ app.use(genericErrorHandler);
 app.listen(serverConfig.PORT, async () => {
     console.log(`Server is running on http://localhost:${serverConfig.PORT}`);
     logger.info(`Press Ctrl+C to stop the server.`, { data: "" } );
+    // Initialize background worker
     setupMailerWorker();
-    logger.info(`mailer worker setup is completed :`);
+    logger.info('Mailer worker setup completed');
 
-     addEmailToQueue({
+       addEmailToQueue({
         to: "vishwasgupta518@gmail.com",
         subject: "test email",
         templateId: "welcome",
