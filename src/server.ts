@@ -41,6 +41,4 @@ app.listen(serverConfig.PORT, async () => {
         }
     })
 
-
-
 });

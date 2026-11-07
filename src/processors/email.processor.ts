@@ -41,13 +41,13 @@ emailProcessor.on("error", (err) => {
     console.error("WORKER ERROR:", err);
 });
 
-emailProcessor.on("failed", (job, err) => {
-    console.error("FAILED:", job?.id, err.message);
-});
+// emailProcessor.on("failed", (job, err) => {
+//     console.error("FAILED:", job?.id, err.message);
+// });
 
-emailProcessor.on("completed", (job) => {
-    console.log("COMPLETED:", job.id);
-});
+// emailProcessor.on("completed", (job) => {
+//     console.log("COMPLETED:", job.id);
+// });
     
    emailProcessor.on("failed", (job, err) => {
     logger.error(`Email job ${job?.id} failed: ${err.message}`);
