@@ -47,9 +47,7 @@ emailProcessor.on("error", (err) => {
 // emailProcessor.on("completed", (job) => {
 //     console.log("COMPLETED:", job.id);
 // });
-// emailProcessor.on("completed", (job) => {
-//     console.log("COMPLETED:", job.id);
-// });
+
 
    emailProcessor.on("failed", (job, err) => {
     logger.error(`Email job ${job?.id} failed: ${err.message}`);
